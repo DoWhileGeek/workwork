@@ -29,6 +29,7 @@ def main():
         name="workwork",
         url="https://github.com/DoWhileGeek/workwork",
         description="A flask api for managing aws ec2 instances",
+        license="MIT License",
         author="Joeseph Rodrigues",
         author_email="dowhilegeek@gmail.com",
         version=get_version(),

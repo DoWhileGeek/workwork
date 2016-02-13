@@ -1,8 +1,7 @@
 from os import environ
 
 def load():
-    config = {}
-    params = ["AWS_PUBLIC_KEY", "AWS_SECRET_KEY", "AWS_REGION"]
-    for param in params:
-        config[param] = environ[param]
+    config = {"AWS_PUBLIC_KEY": None, "AWS_SECRET_KEY": None, "AWS_REGION": None}
+    for key in config.keys():
+        config[key] = environ[key]
     return config

@@ -1,14 +1,15 @@
 
 from flask import Flask
 
-from workwork.config import load
+from workwork import config as _config
 
 
 def create_app(config=None):
-    if config is None:
-        config = load()
-
     app = Flask(__name__)
+
+    if config is None:
+        config = _config.load()
+    app.config.update(config)
 
     return app
 

@@ -3,6 +3,7 @@ from flask import Flask
 
 from workwork import config as _config
 from workwork.api import instance
+from workwork.errors import register_error_handlers
 
 
 def create_app(config=None):
@@ -11,6 +12,8 @@ def create_app(config=None):
     if config is None:
         config = _config.load()
     app.config.update(config)
+
+    register_error_handlers(app)
 
     app.register_blueprint(instance.blueprint)
 

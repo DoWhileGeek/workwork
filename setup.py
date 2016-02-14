@@ -37,8 +37,9 @@ def main():
         package_data={"workwork": ["workwork/*"], },
         include_package_data=True,
         install_requires=[
-            "Flask==0.10.1",
             "boto3==1.2.3",
+            "Flask==0.10.1",
+            "webargs==1.2.0",
         ],
         extras_require={
             "develop": [

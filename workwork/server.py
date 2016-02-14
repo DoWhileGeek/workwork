@@ -2,6 +2,7 @@
 from flask import Flask
 
 from workwork import config as _config
+from workwork.api import instance
 
 
 def create_app(config=None):
@@ -10,6 +11,8 @@ def create_app(config=None):
     if config is None:
         config = _config.load()
     app.config.update(config)
+
+    app.register_blueprint(instance.blueprint)
 
     return app
 

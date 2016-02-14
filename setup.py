@@ -44,6 +44,7 @@ def main():
         extras_require={
             "develop": [
                 "pytest==2.8.7",
+                "pytest-mock==0.6.0",
             ],
         },
     )

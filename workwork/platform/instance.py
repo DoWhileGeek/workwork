@@ -21,14 +21,14 @@ def validate_region(region):
     ]
 
     if region not in regions:
-        raise InvalidRegion()
+        raise InvalidRegion
 
 
 def validate_action(action):
     valid_actions = ["start", "stop", "reboot"]
 
     if action not in valid_actions:
-        raise InvalidAction()
+        raise InvalidAction
 
 
 def create_ec2_connection(public_key=None, secret_key=None, region=None):
@@ -60,4 +60,4 @@ def set_instance_state(instance_id, action, region=None):
         elif action == "reboot":
             instances.reboot()
     except botocore.exceptions.ClientError:
-        raise InvalidInstanceId()
+        raise InvalidInstanceId

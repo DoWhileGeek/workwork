@@ -5,14 +5,15 @@ from flask import Blueprint, current_app
 from webargs import fields
 from webargs.flaskparser import use_args
 
-from workwork.platform import instance
+from workwork.platform import instance, helpers
 
 blueprint = Blueprint("instance", __name__)
 LOGGER = logging.getLogger(__name__)
 
 @blueprint.route("/instance/<instance_id>/<action>/", methods=["GET", "POST"])
 @use_args({
-    "region":  fields.Str(validate=instance.validate_region),
+    "api_key":  fields.Str(validate=helpers.validate_api_key, required=True),
+    "region":   fields.Str(validate=instance.validate_region),
     },
     locations=("json", ),
 )

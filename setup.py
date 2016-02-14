@@ -39,6 +39,7 @@ def main():
         install_requires=[
             "boto3==1.2.3",
             "Flask==0.10.1",
+            "gunicorn==19.4.5",
             "webargs==1.2.0",
         ],
         extras_require={

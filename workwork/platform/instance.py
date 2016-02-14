@@ -33,9 +33,9 @@ def validate_action(action):
 
 def create_ec2_connection(public_key=None, secret_key=None, region=None):
     if not public_key:
-        public_key = current_app.config["AWS_PUBLIC_KEY"]
+        public_key = current_app.config["AWS_ACCESS_KEY_ID"]
     if not secret_key:
-        secret_key = current_app.config["AWS_SECRET_KEY"]
+        secret_key = current_app.config["AWS_SECRET_ACCESS_KEY"]
     if not region:
         region = current_app.config["AWS_REGION"]
 

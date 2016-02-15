@@ -10,7 +10,7 @@ from workwork.platform import instance, helpers
 blueprint = Blueprint("instance", __name__)
 LOGGER = logging.getLogger(__name__)
 
-@blueprint.route("/instance/<region>/<instance_id>/<action>/", methods=["POST"])
+@blueprint.route("/instance/<region>/<instance_id>/<action>/", methods=["PUT", "POST"])
 @use_args({
     "api_key":  fields.Str(validate=helpers.validate_api_key, required=True),
     },

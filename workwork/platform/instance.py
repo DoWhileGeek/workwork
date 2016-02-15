@@ -3,7 +3,6 @@ import logging
 import boto3
 import botocore.exceptions
 from flask import current_app
-from webargs import ValidationError
 
 from workwork.errors import InvalidRegion, InvalidInstanceId, InvalidAction
 

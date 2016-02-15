@@ -2,7 +2,6 @@ import logging
 import json
 
 from flask import jsonify
-from webargs import ValidationError
 
 
 def register_error_handlers(app):

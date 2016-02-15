@@ -1,3 +1,5 @@
+import logging
+
 import boto3
 import botocore.exceptions
 from flask import current_app
@@ -5,6 +7,8 @@ from webargs import ValidationError
 
 from workwork.errors import InvalidRegion, InvalidInstanceId, InvalidAction
 
+
+LOGGER = logging.getLogger(__name__)
 
 def validate_region(region):
     regions = [
@@ -21,6 +25,7 @@ def validate_region(region):
     ]
 
     if region not in regions:
+        LOGGER.warn("Invalid region '{}'".format(region))
         raise InvalidRegion
 
 
@@ -28,6 +33,7 @@ def validate_action(action):
     valid_actions = ["start", "stop", "reboot"]
 
     if action not in valid_actions:
+        LOGGER.warn("Invalid action '{}'".format(action))
         raise InvalidAction
 
 
@@ -60,4 +66,5 @@ def set_instance_state(instance_id, action, region=None):
         elif action == "reboot":
             instances.reboot()
     except botocore.exceptions.ClientError:
+        LOGGER.warn("instance_id not found '{}'".format(instance_id))
         raise InvalidInstanceId

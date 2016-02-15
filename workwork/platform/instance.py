@@ -26,6 +26,7 @@ def validate_region(region):
 
     if region not in regions:
         LOGGER.warn("Invalid region '{}'".format(region))
+        print("Invalid region '{}'".format(region))
         raise InvalidRegion
 
 
@@ -34,6 +35,7 @@ def validate_action(action):
 
     if action not in valid_actions:
         LOGGER.warn("Invalid action '{}'".format(action))
+        print("Invalid action '{}'".format(action))
         raise InvalidAction
 
 
@@ -67,4 +69,5 @@ def set_instance_state(instance_id, action, region=None):
             instances.reboot()
     except botocore.exceptions.ClientError:
         LOGGER.warn("instance_id not found '{}'".format(instance_id))
+        print("instance_id not found '{}'".format(instance_id))
         raise InvalidInstanceId

@@ -16,7 +16,7 @@ LOGGER = logging.getLogger(__name__)
     },
     locations=("json", "headers", "cookies"),
 )
-def instance_post(args, region, instance_id, action):
+def instance_id_update(args, region, instance_id, action):
     instance.validate_region(region)
     instance.validate_action(action)
 

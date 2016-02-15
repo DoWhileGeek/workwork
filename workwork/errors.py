@@ -57,7 +57,7 @@ class InvalidApiKey(APIException):
 
 
 class InvalidInstanceId(APIException):
-    def __init__(self, exception_id="instance_id", title="Invalid instance id", status_code=422, payload=None):
+    def __init__(self, exception_id="instance_id", title="Invalid instance id", status_code=404, payload=None):
         super().__init__(exception_id, title, status_code, payload)
 
 

@@ -11,7 +11,6 @@ def config():
     _config = {
         "AWS_ACCESS_KEY_ID":     "abc-123",
         "AWS_SECRET_ACCESS_KEY": "def-456",
-        "AWS_REGION":            "us-west-2",
         "API_KEY":               "2eb05a35-1bb4-4900-a247-1aa5166ddf99",
     }
 

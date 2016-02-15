@@ -38,13 +38,11 @@ def validate_action(action):
         raise InvalidAction
 
 
-def create_ec2_connection(public_key=None, secret_key=None, region=None):
+def create_ec2_connection(region, public_key=None, secret_key=None):
     if not public_key:
         public_key = current_app.config["AWS_ACCESS_KEY_ID"]
     if not secret_key:
         secret_key = current_app.config["AWS_SECRET_ACCESS_KEY"]
-    if not region:
-        region = current_app.config["AWS_REGION"]
 
     return boto3.resource(
         "ec2",
@@ -54,8 +52,8 @@ def create_ec2_connection(public_key=None, secret_key=None, region=None):
     )
 
 
-def set_instance_state(instance_id, action, region=None):
-    ec2 = create_ec2_connection(region=region)
+def set_instance_state(instance_id, region, action):
+    ec2 = create_ec2_connection(region)
 
     instances = ec2.instances.filter(InstanceIds=[instance_id])
 

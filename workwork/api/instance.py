@@ -10,16 +10,16 @@ from workwork.platform import instance, helpers
 blueprint = Blueprint("instance", __name__)
 LOGGER = logging.getLogger(__name__)
 
-@blueprint.route("/instance/<instance_id>/<action>/", methods=["POST"])
+@blueprint.route("/instance/<region>/<instance_id>/<action>/", methods=["POST"])
 @use_args({
     "api_key":  fields.Str(validate=helpers.validate_api_key, required=True),
-    "region":   fields.Str(validate=instance.validate_region),
     },
-    locations=("json", ),
+    locations=("json", "headers", "cookies"),
 )
-def instance_post(args, instance_id, action):
+def instance_post(args, region, instance_id, action):
+    instance.validate_region(region)
     instance.validate_action(action)
 
-    instance.set_instance_state(instance_id, action, args.get("region"))
+    instance.set_instance_state(instance_id, region, action)
 
     return "", 204

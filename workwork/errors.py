@@ -22,6 +22,9 @@ def register_error_handlers(app):
                     messages.append(payload)
         else:
             messages.append({"title": "Invalid Request"})
+
+        print(json.dumps({"errors": messages}))
+
         return jsonify({
             'errors': messages,
         }), 422

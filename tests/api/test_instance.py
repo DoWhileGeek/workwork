@@ -24,7 +24,7 @@ def test_instance_post_invalid_instance_id(client, mocker, instance_payload):
     mocker.patch("workwork.platform.instance.set_instance_state", side_effect=InvalidInstanceId())
 
     resp = client.post("/instance/some-invalid-id/start/", **instance_payload.to_json())
-    assert resp.status_code == 422
+    assert resp.status_code == 404
 
     payload = json.loads(resp.data.decode("utf-8"))
     assert payload == {'errors': [{'id': 'instance_id', 'title': 'Invalid instance id'}]}

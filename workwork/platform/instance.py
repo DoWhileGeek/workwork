@@ -56,7 +56,7 @@ def set_instance_state(instance_id, region, action):
     ec2 = create_ec2_connection(region)
 
     try:
-        instance = ec2.instance(instance_id)
+        instance = ec2.Instance(instance_id)
     except botocore.exceptions.ClientError:
         LOGGER.warn("instance_id not found '{}'".format(instance_id))
         print("instance_id not found '{}'".format(instance_id))

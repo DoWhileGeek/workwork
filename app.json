@@ -1,0 +1,19 @@
+{
+    "name": "workwork",
+    "description": "A flask api for managing aws ec2 instances",
+    "repository": "https://github.com/DoWhileGeek/workwork",
+    "env": {
+        "AWS_ACCESS_KEY_ID": {
+            "description": "The public access key used to access AWS services",
+            "required": true
+        },
+        "AWS_SECRET_ACCESS_KEY": {
+            "description": "The secret key used to access AWS services",
+            "required": true
+        },
+        "API_KEY": {
+            "description": "The api key that secures this app. It must be used in every request, it should be something complex like a uuid.",
+            "required": true
+        }
+    }
+}

@@ -1,3 +1,4 @@
+from datetime import datetime
 import logging
 
 import boto3
@@ -64,10 +65,13 @@ def set_instance_state(instance_id, region, action):
 
     if action == "start":
         instance.start()
+        instance.create_tags(Tags=[{"Key": "start_time", "Value": datetime.utcnow().isoformat()}])
     elif action == "stop":
         instance.stop()
+        instance.create_tags(Tags=[{"Key": "start_time", "Value": ""}])
     elif action == "reboot":
         instance.reboot()
+        instance.create_tags(Tags=[{"Key": "start_time", "Value": datetime.utcnow().isoformat()}])
 
 
 def get_instance(instance_id, region):

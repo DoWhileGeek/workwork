@@ -1,7 +1,7 @@
 import logging
 
 import boto3
-from flask import Blueprint, current_app
+from flask import Blueprint, current_app, jsonify
 from webargs import fields
 from webargs.flaskparser import use_args
 
@@ -23,3 +23,17 @@ def instance_id_update(args, region, instance_id, action):
     instance.set_instance_state(instance_id, region, action)
 
     return "", 204
+
+
+@blueprint.route("/instance/<region>/<instance_id>/", methods=["GET"])
+@use_args({
+    "api_key":  fields.Str(validate=helpers.validate_api_key, required=True),
+    },
+    locations=("headers", "cookies"),
+)
+def instance_id_read(args, region, instance_id):
+    instance.validate_region(region)
+
+    payload = instance.get_instance(instance_id, region)
+
+    return jsonify(payload), 200

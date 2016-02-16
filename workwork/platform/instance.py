@@ -68,3 +68,34 @@ def set_instance_state(instance_id, region, action):
         LOGGER.warn("instance_id not found '{}'".format(instance_id))
         print("instance_id not found '{}'".format(instance_id))
         raise InstanceIdNotFound
+
+
+def get_instance(instance_id, region):
+    ec2 = create_ec2_connection(region)
+
+    instances = ec2.instances.filter(InstanceIds=[instance_id])
+
+    try:
+        instance = [instance for instance in instances][0]
+
+        payload = {
+            "name":              None,
+            "public_ip_address": instance.public_ip_address if instance.public_ip_address else None,
+            "public_dns_name":   instance.public_dns_name if instance.public_dns_name else None,
+            "state":             instance.state["Name"],
+            "type":              instance.instance_type,
+            "tags":              {},
+        }
+
+        if instance.tags:
+            for pair in instance.tags:
+                payload["tags"][pair["Key"]] = pair["Value"]
+
+                if pair["Key"] == "Name":
+                    payload["name"] = pair["Value"]
+
+        return payload
+    except botocore.exceptions.ClientError:
+        LOGGER.warn("instance_id not found '{}'".format(instance_id))
+        print("instance_id not found '{}'".format(instance_id))
+        raise InstanceIdNotFound

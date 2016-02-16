@@ -59,3 +59,6 @@ class Payload:
             "data": json.dumps(self.payload),
             "content_type": "application/json",
         }
+
+    def to_dict(self):
+        return self.payload

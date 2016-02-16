@@ -4,7 +4,7 @@ import boto3
 import botocore.exceptions
 from flask import current_app
 
-from workwork.errors import InvalidRegion, InvalidInstanceId, InvalidAction
+from workwork.errors import InvalidRegion, InstanceIdNotFound, InvalidAction
 
 
 LOGGER = logging.getLogger(__name__)
@@ -67,4 +67,4 @@ def set_instance_state(instance_id, region, action):
     except botocore.exceptions.ClientError:
         LOGGER.warn("instance_id not found '{}'".format(instance_id))
         print("instance_id not found '{}'".format(instance_id))
-        raise InvalidInstanceId
+        raise InstanceIdNotFound

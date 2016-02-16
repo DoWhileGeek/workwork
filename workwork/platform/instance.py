@@ -81,7 +81,6 @@ def get_instance(instance_id, region):
         raise InstanceIdNotFound
 
     payload = {
-        "name":              None,
         "public_ip_address": instance.public_ip_address if instance.public_ip_address else None,
         "public_dns_name":   instance.public_dns_name if instance.public_dns_name else None,
         "state":             instance.state["Name"],
@@ -92,8 +91,5 @@ def get_instance(instance_id, region):
     if instance.tags:
         for pair in instance.tags:
             payload["tags"][pair["Key"]] = pair["Value"]
-
-            if pair["Key"] == "Name":
-                payload["name"] = pair["Value"]
 
     return payload

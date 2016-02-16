@@ -55,19 +55,19 @@ def create_ec2_connection(region, public_key=None, secret_key=None):
 def set_instance_state(instance_id, region, action):
     ec2 = create_ec2_connection(region)
 
-    instances = ec2.instances.filter(InstanceIds=[instance_id])
-
     try:
-        if action == "start":
-            instances.start()
-        elif action == "stop":
-            instances.stop()
-        elif action == "reboot":
-            instances.reboot()
+        instance = ec2.instance(instance_id)
     except botocore.exceptions.ClientError:
         LOGGER.warn("instance_id not found '{}'".format(instance_id))
         print("instance_id not found '{}'".format(instance_id))
         raise InstanceIdNotFound
+
+    if action == "start":
+        instance.start()
+    elif action == "stop":
+        instance.stop()
+    elif action == "reboot":
+        instance.reboot()
 
 
 def get_instance(instance_id, region):

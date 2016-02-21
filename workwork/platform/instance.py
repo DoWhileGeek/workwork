@@ -56,44 +56,44 @@ def create_ec2_connection(region, public_key=None, secret_key=None):
 def set_instance_state(instance_id, region, action):
     ec2 = create_ec2_connection(region)
 
+    instance = ec2.Instance(instance_id)
+
     try:
-        instance = ec2.Instance(instance_id)
+        if action == "start":
+            instance.start()
+            instance.create_tags(Tags=[{"Key": "start_time", "Value": datetime.utcnow().isoformat()}])
+        elif action == "stop":
+            instance.stop()
+            instance.create_tags(Tags=[{"Key": "start_time", "Value": ""}])
+        elif action == "reboot":
+            instance.reboot()
+            instance.create_tags(Tags=[{"Key": "start_time", "Value": datetime.utcnow().isoformat()}])
     except botocore.exceptions.ClientError:
         LOGGER.warn("instance_id not found '{}'".format(instance_id))
         print("instance_id not found '{}'".format(instance_id))
         raise InstanceIdNotFound
-
-    if action == "start":
-        instance.start()
-        instance.create_tags(Tags=[{"Key": "start_time", "Value": datetime.utcnow().isoformat()}])
-    elif action == "stop":
-        instance.stop()
-        instance.create_tags(Tags=[{"Key": "start_time", "Value": ""}])
-    elif action == "reboot":
-        instance.reboot()
-        instance.create_tags(Tags=[{"Key": "start_time", "Value": datetime.utcnow().isoformat()}])
 
 
 def get_instance(instance_id, region):
     ec2 = create_ec2_connection(region)
 
+    instance = ec2.Instance(instance_id)
+
     try:
-        instance = ec2.Instance(instance_id)
+        payload = {
+            "public_ip_address": instance.public_ip_address if instance.public_ip_address else None,
+            "public_dns_name":   instance.public_dns_name if instance.public_dns_name else None,
+            "state":             instance.state["Name"],
+            "type":              instance.instance_type,
+            "tags":              {},
+        }
+
+        if instance.tags:
+            for pair in instance.tags:
+                payload["tags"][pair["Key"]] = pair["Value"]
     except botocore.exceptions.ClientError:
         LOGGER.warn("instance_id not found '{}'".format(instance_id))
         print("instance_id not found '{}'".format(instance_id))
         raise InstanceIdNotFound
-
-    payload = {
-        "public_ip_address": instance.public_ip_address if instance.public_ip_address else None,
-        "public_dns_name":   instance.public_dns_name if instance.public_dns_name else None,
-        "state":             instance.state["Name"],
-        "type":              instance.instance_type,
-        "tags":              {},
-    }
-
-    if instance.tags:
-        for pair in instance.tags:
-            payload["tags"][pair["Key"]] = pair["Value"]
 
     return payload

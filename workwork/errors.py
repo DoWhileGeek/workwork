@@ -4,6 +4,8 @@ import json
 from flask import jsonify
 
 
+LOGGER = logging.getLogger(__name__)
+
 def register_error_handlers(app):
     @app.errorhandler(422)
     def handle_bad_request(err):
@@ -59,7 +61,9 @@ class InvalidApiKey(APIException):
 
 
 class InstanceIdNotFound(APIException):
-    def __init__(self, exception_id="instance_id", title="instance_id not found", status_code=404, payload=None):
+    def __init__(self, exception_id, title="instance_id not found", status_code=404, payload=None):
+        LOGGER.warn("instance_id not found '{}'".format(exception_id))
+        print("instance_id not found '{}'".format(exception_id))
         super().__init__(exception_id, title, status_code, payload)
 
 

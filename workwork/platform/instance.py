@@ -69,9 +69,7 @@ def set_instance_state(instance_id, region, action):
             instance.reboot()
             instance.create_tags(Tags=[{"Key": "start_time", "Value": datetime.utcnow().isoformat()}])
     except botocore.exceptions.ClientError:
-        LOGGER.warn("instance_id not found '{}'".format(instance_id))
-        print("instance_id not found '{}'".format(instance_id))
-        raise InstanceIdNotFound
+        raise InstanceIdNotFound(instance_id)
 
 
 def get_instance(instance_id, region):
@@ -92,8 +90,6 @@ def get_instance(instance_id, region):
             for pair in instance.tags:
                 payload["tags"][pair["Key"]] = pair["Value"]
     except botocore.exceptions.ClientError:
-        LOGGER.warn("instance_id not found '{}'".format(instance_id))
-        print("instance_id not found '{}'".format(instance_id))
-        raise InstanceIdNotFound
+        raise InstanceIdNotFound(instance_id)
 
     return payload
